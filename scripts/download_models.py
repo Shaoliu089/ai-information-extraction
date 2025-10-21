@@ -10,7 +10,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import yaml
 
 
-def download_model(model_id: str, local_dir: str = None):
+def download_model(model_name: str, config_path:  str = "config/model_configs.yaml", local_dir: str = None):
     """
     Download a model from Hugging Face Hub.
     
@@ -18,12 +18,24 @@ def download_model(model_id: str, local_dir: str = None):
         model_id: Hugging Face model ID
         local_dir: Local directory to save model
     """
+    if not Path(config_path).exists():
+        print(f"Configuration file not found: {config_path}")
+        return
+    
+    with open(config_path, 'r') as f:
+        config = yaml.safe_load(f)
+    
+    models = config.get('models', {})
+    if model_name in models:
+        model_id = models[model_name].get('model_id')
+    else:
+        print(f'model name {model_name} not found')
+    print(model_id)
     if local_dir is None:
         local_dir = f"models/{model_id.replace('/', '_')}"
-    
-    print(f"Downloading model: {model_id}")
+    print(f"Downloading model: {model_name}")
     print(f"Local directory: {local_dir}")
-    
+
     try:
         # Download model files
         snapshot_download(
@@ -81,7 +93,7 @@ def main():
     
     if args.model:
         # Download specific model
-        download_model(args.model)
+        download_model(args.model, args.config)
     elif args.all:
         # Download all models from config
         setup_models_from_config(args.config)
