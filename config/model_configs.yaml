@@ -1,0 +1,70 @@
+# Model configurations for different open-source LLMs
+
+models:
+  llama2_7b:
+    name: "Llama 2 7B"
+    model_id: "meta-llama/Llama-2-7b-hf"
+    max_length: 2048
+    temperature: 0.1
+    top_p: 0.9
+    max_new_tokens: 512
+    quantization: "4bit"
+    device_map: "auto"
+    
+  mistral_7b:
+    name: "Mistral 7B"
+    model_id: "mistralai/Mistral-7B-v0.1"
+    max_length: 2048
+    temperature: 0.1
+    top_p: 0.9
+    max_new_tokens: 512
+    quantization: "4bit"
+    device_map: "auto"
+    
+  phi3_3_8b:
+    name: "Phi-3 3.8B"
+    model_id: "microsoft/Phi-3-mini-4k-instruct"
+    max_length: 2048
+    temperature: 0.1
+    top_p: 0.9
+    max_new_tokens: 512
+    quantization: "4bit"
+    device_map: "auto"
+    
+  gemma_7b:
+    name: "Gemma 7B"
+    model_id: "google/gemma-7b-it"
+    max_length: 2048
+    temperature: 0.1
+    top_p: 0.9
+    max_new_tokens: 512
+    quantization: "4bit"
+    device_map: "auto"
+    
+  qwen_7b:
+    name: "Qwen 7B"
+    model_id: "Qwen/Qwen-7B-Chat"
+    max_length: 2048
+    temperature: 0.1
+    top_p: 0.9
+    max_new_tokens: 512
+    quantization: "4bit"
+    device_map: "auto"
+
+# Default settings
+default:
+  batch_size: 1
+  timeout: 30
+  retry_attempts: 3
+  output_format: "json"
+  
+# Evaluation settings
+evaluation:
+  metrics:
+    - "exact_match"
+    - "partial_match"
+    - "f1_score"
+    - "precision"
+    - "recall"
+  confidence_threshold: 0.8
+  max_retries: 3
